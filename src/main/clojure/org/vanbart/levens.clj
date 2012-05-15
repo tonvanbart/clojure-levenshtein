@@ -46,5 +46,3 @@
   (is (= [2 1 1] (nextrow \b "aa" [1 0 1] [2]))))
 
 (run-tests)
-
-(count [1 2 3])
