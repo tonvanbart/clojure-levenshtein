@@ -28,9 +28,17 @@
         (conj thisrow (nextelt char1 char2 prevrow thisrow position))))))
 
 (defn levenshtein
-  "Calculate the Levenshtein distance between two strings"
-  [str1 str2]
-  (let [char1 (first str1)]))
+  "Calculate the Levenshtein distance between two strings
+  For now we assume the strings are of equal length."
+  ([str1 str2]
+  (let [row0 (vec (map first (map vector (iterate inc 1) str2)))]
+    (levenshtein 1 (vec (cons 0 row0)) str1 str2)))
+  ([row-nr prevrow str1 str2]
+    (let [next-row (nextrow (first str1) str2 prevrow (vector row-nr))]
+      (if (= row-nr (count str2))
+        (last next-row)
+        (recur (inc row-nr) next-row (.substring str1 1) str2))))
+  )
 
 ; test combinations
 ; prevrow 1 2 3 4       6 5 4 3
@@ -44,5 +52,9 @@
 (deftest test-nextrow
   (is (= [1 0 1] (nextrow \a "aa" [0 1 2] [1])))
   (is (= [2 1 1] (nextrow \b "aa" [1 0 1] [2]))))
+
+(deftest test-levenshtein
+  (is (= 0 (levenshtein "abc" "abc")))
+  (is (= 1 (levenshtein "abc" "abb"))))
 
 (run-tests)
