@@ -6,10 +6,10 @@
   building, determine out the next element fot this row."
   [char1 char2 prevrow thisrow position]
   (if (= char1 char2)
-    (nth prevrow (- position 1))
+    (prevrow (- position 1))
     (+ 1 (min
-      (nth prevrow (- position 1))
-      (nth prevrow position)
+      (prevrow (- position 1))
+      (prevrow position)
       (last thisrow))))
   )
 
