@@ -34,7 +34,7 @@
     (levenshtein 1 (vec (cons 0 row0)) str1 str2)))
   ([row-nr prevrow str1 str2]
     (let [next-row (nextrow (first str1) str2 prevrow (vector row-nr))
-          str1-remainder (.substring str1 1)]
+          str1-remainder (subs str1 1)]
       (if (= "" str1-remainder)
         (last next-row)
         (recur (inc row-nr) next-row str1-remainder str2))))
